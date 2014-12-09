@@ -83,6 +83,23 @@ vows.describe('hashresHelper').addBatch({
       assert(html.indexOf('scripts/sub/dc5dec8b-myscripts1.js') !== -1);
       assert(html.indexOf('styles/3b97b071-mystyles1.css') !== -1);
       assert(html.indexOf('styles/sub/5167a072-mystyles1.css') !== -1);
+    },
+    'for sample with no matching files': function(grunt) {
+      assert.doesNotThrow(
+        function() {
+          helper.hashAndSub(
+            grunt, {
+              files: [{
+                src : grunt.file.expand([
+                  './temp/helper/subfolders-same-filename/scripts/**/*.jsWillNotMatch']),
+                  dest: './temp/helper/subfolders-same-filename/index.html'
+                }],
+                fileNameFormat: '${hash}-${name}.${ext}',
+                encoding      : 'utf8',
+                renameFiles   : true
+              });
+        }
+      );
     }
   }
 }).export(module);
